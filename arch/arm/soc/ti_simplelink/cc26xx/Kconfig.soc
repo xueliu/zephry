@@ -1,0 +1,12 @@
+# Kconfig.soc - Texas Instruments CC2650
+#
+
+choice
+prompt "TI SimpleLink MCU Selection"
+depends on SOC_SERIES_CC26XX
+
+config SOC_CC2650
+	bool "CC2650"
+	select HAS_CC2650SDK
+
+endchoice

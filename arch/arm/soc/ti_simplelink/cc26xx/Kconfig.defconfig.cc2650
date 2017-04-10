@@ -1,0 +1,42 @@
+# Kconfig.defconfig.cc2650- TI SimpleLink CC2650 SoC
+#
+
+if SOC_CC2650
+
+config SOC
+	string
+	default cc2650
+
+config SYS_CLOCK_HW_CYCLES_PER_SEC
+	int
+	default 80000000
+
+config NUM_IRQS
+	int
+	# must be >= the highest interrupt number used
+	# This includes the NWP interrupt
+	default 179
+
+config CC2650SDK_LIBRARY
+	def_bool n
+
+if GPIO
+
+config GPIO_CC2650
+	def_bool y
+
+config GPIO_CC2650_A0
+	default n
+
+config GPIO_CC2650_A1
+	default y
+
+config GPIO_CC2650_A2
+	default y
+
+config GPIO_CC2650_A3
+	default n
+
+endif # GPIO
+
+endif # SOC_CC2650

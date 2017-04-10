@@ -1,0 +1,6 @@
+# Kconfig - TI SimpleLink CC2650 Sensor Tag Board
+#
+
+config  BOARD_CC2650_SENSOR_TAG
+	bool "TI CC2650 SENSOR TAG"
+	depends on SOC_CC2650

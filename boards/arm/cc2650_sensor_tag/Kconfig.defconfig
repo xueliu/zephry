@@ -1,0 +1,9 @@
+# Kconfig - TI CC2650 Sensor Tag board configuration
+#
+
+if BOARD_CC2650_SENSOR_TAG
+
+config BOARD
+	default cc2650_sensor_tag
+
+endif # BOARD_CC2650_SENSOR_TAG
