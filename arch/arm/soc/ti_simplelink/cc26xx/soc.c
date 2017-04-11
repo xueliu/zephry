@@ -9,7 +9,7 @@
 #include <init.h>
 #include <soc.h>
 #include <driverlib/rom.h>
-#include <driverlib/rom_map.h>
+//#include <driverlib/rom_map.h>
 #include <driverlib/prcm.h>
 
 static int ti_cc2650_init(struct device *arg)

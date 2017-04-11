@@ -1,0 +1,29 @@
+# Kconfig - CC26XXWARE HAL configuration
+
+config HAS_CC26XXWARE
+	bool
+
+menuconfig CC26XXWARE
+	bool "TI CC26XXWARE support"
+	default n
+	depends on HAS_CC26XXWARE
+	help
+	Set when CC26XXWARE_BUILTIN or CC26XXWARE_LIBRARY
+
+if HAS_CC26XXWARE
+
+config CC26XXWARE_BUILTIN
+        bool "Enable building the CC26XXWARE files stored in the Zephyr tree"
+        default n
+        select CC26XXWARE
+        help
+        Link with local CC26XXWARE driverlib sources.
+
+config CC26XXWARE_ROM_DRIVERLIB
+        bool "Use the Peripheral Driver library functions in ROM"
+        default n
+        select CC26XXWARE
+        help
+        Vector to CC26XXWARE driverlib APIs in ROM.
+
+endif

@@ -9,34 +9,42 @@ config SOC
 
 config SYS_CLOCK_HW_CYCLES_PER_SEC
 	int
-	default 80000000
+	default 48000000
+
+if !HAS_DTS
+config SRAM_SIZE
+	default 20
+
+config FLASH_SIZE
+	default 128
+endif # !HAS_DTS
 
 config NUM_IRQS
 	int
 	# must be >= the highest interrupt number used
 	# This includes the NWP interrupt
-	default 179
+	default 82
 
-config CC2650SDK_LIBRARY
+config CC26XXWARE_LIBRARY
 	def_bool n
 
 if GPIO
 
-config GPIO_CC2650
+config GPIO_CC26XX
 	def_bool y
 
-config GPIO_CC2650_A0
-	default n
+#config GPIO_CC26XX_A0
+#	default n
 
-config GPIO_CC2650_A1
-	default y
+#config GPIO_CC26XX_A1
+#	default y
 
-config GPIO_CC2650_A2
-	default y
+#config GPIO_CC26XX_A2
+#	default y
 
-config GPIO_CC2650_A3
-	default n
+#config GPIO_CC26XX_A3
+#	default n
 
 endif # GPIO
 
-endif # SOC_CC2650
+endif # SOC_CC26XX

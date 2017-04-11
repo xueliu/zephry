@@ -1,0 +1,16 @@
+# CONFIG_CC26XXWARE_BUILTIN can be used for debugging purposes.
+# In that case, the CC26XXWARE driverlib must be built with level 0
+# optimization (-O0) for the uart module to work properly.
+# Note the default build for Zephyr is CONFIG_CC26XXWARE_ROM_DRIVERLIB=y
+# which uses the ROM versions of the APIs instead.
+ccflags-$(CONFIG_CC26XXWARE_BUILTIN) += -O0
+ccflags-$(CONFIG_HAS_CC26XXWARE) += -D$(COMPILER)
+obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/gpio.o
+obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/interrupt.o
+#obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/pin.o
+obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/uart.o
+obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/udma.o
+obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/ssi.o
+# Need prcm and utils for PRCMCC3200MCUInit which is not in ROM
+#obj-$(CONFIG_HAS_CC26XXWARE) += driverlib/utils.o
+obj-$(CONFIG_HAS_CC26XXWARE) += driverlib/prcm.o

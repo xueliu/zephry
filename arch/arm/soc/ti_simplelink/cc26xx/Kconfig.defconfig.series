@@ -1,9 +1,9 @@
-# Kconfig.defconfig.series - TI SimpleLink Family
+# Kconfig.defconfig.series - TI SimpleLink 26XX Family
 #
 
 if SOC_SERIES_CC26XX
 
-source "arch/arm/soc/ti_simplelink/cc2650/Kconfig.defconfig.cc26*"
+source "arch/arm/soc/ti_simplelink/cc26xx/Kconfig.defconfig.cc26*"
 
 config SOC_SERIES
 	default cc26xx

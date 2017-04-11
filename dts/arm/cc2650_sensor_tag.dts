@@ -8,7 +8,6 @@
 
 	aliases {
 		uart_0 = &uart0;
-		uart_1 = &uart1;
 	};
 
 	chosen {

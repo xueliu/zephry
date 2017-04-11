@@ -2,7 +2,7 @@
 #
 
 config  SOC_SERIES_CC26XX
-	bool "TI SimpleLink Family"
+	bool "TI SimpleLink CC26XX Family"
 	select CPU_CORTEX_M
 	select CPU_CORTEX_M3
 	select SOC_FAMILY_TISIMPLELINK

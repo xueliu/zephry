@@ -2,11 +2,11 @@
 #
 
 choice
-prompt "TI SimpleLink MCU Selection"
+prompt "TI SimpleLink 26XX MCU Selection"
 depends on SOC_SERIES_CC26XX
 
 config SOC_CC2650
 	bool "CC2650"
-	select HAS_CC2650SDK
+	select HAS_CC26XXWARE
 
 endchoice

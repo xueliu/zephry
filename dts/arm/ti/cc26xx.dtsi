@@ -1,4 +1,4 @@
-#include <arm/armv6-m.dtsi>
+#include <arm/armv7-m.dtsi>
 #include <inc/hw_memmap.h>
 #include <inc/hw_ints.h>
 
@@ -10,33 +10,25 @@
 / {
 	cpus {
 		cpu@0 {
-			compatible = "arm,cortex-m4";
+			compatible = "arm,cortex-m3";
 		};
 	};
 
 	sram0: memory {
 		compatible = "sram";
-		reg = <0x20004000 0x3C000>;
+		reg = <0x20000000 0x5000>;
 	};
 
-	flash0: serial-flash {
-		compatible = "serial-flash";
-		reg = <0x0 0x80000>;
+	flash0: internal-flash {
+		compatible = "internal-flash";
+		reg = <0x0 0x20000>;
 	};
 
 	soc {
-		uart0: uart@UARTA0_BASE {
+		uart0: uart@UART0_BASE {
 			compatible = "ti,cc26xx-uart";
-			reg = <UARTA0_BASE 0x4c>;
-			interrupts = <EXP_UARTA0 3>;
-			baud-rate = <115200>;
-			status = "disabled";
-		};
-
-		uart1: uart@UARTA1_BASE {
-			compatible = "ti,cc26xx-uart";
-			reg = <UARTA1_BASE 0x4c>;
-			interrupts = <EXP_UARTA1 3>;
+			reg = <UART0_BASE 0x4c>;
+			interrupts = <INT_UART0_COMB 3>;
 			baud-rate = <115200>;
 			status = "disabled";
 		};

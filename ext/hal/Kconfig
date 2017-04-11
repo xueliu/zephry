@@ -26,4 +26,6 @@ source "ext/hal/ti/cc3200sdk/Kconfig"
 
 source "ext/hal/ti/cc3220sdk/Kconfig"
 
+source "ext/hal/ti/cc26xxware/Kconfig"
+
 endmenu
