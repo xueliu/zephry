@@ -5,7 +5,6 @@
 /* Note: Zephyr uses exception numbers, vs the IRQ #s used by the CC3200 SDK */
 /* which are offset by 16: */
 #define EXP_UARTA0 (INT_UARTA0 - 16)
-#define EXP_UARTA1 (INT_UARTA1 - 16)
 
 / {
 	cpus {

@@ -7,7 +7,15 @@
 #include <zephyr.h>
 #include <board.h>
 #include <device.h>
-#include <gpio.h>
+//#include <gpio.h>
+
+#include <driverlib/ioc.h>
+//#include <driverlib/gpio.h>
+#include <driverlib/interrupt.h>
+#include <driverlib/cpu.h>
+#include <driverlib/prcm.h>
+
+#include <inc/hw_gpio.h>
 
 /* Change this if you have an LED connected to a custom port */
 #define PORT	LED0_GPIO_PORT
@@ -18,19 +26,45 @@
 /* 1000 msec = 1 sec */
 #define SLEEP_TIME 	1000
 
+#define BOARD_IOID_LED_1          IOID_10
+#define BOARD_IOID_LED_2          IOID_15
+#define BOARD_LED_1               (1 << BOARD_IOID_LED_1)
+#define BOARD_LED_2               (1 << BOARD_IOID_LED_2)
+#define BOARD_LED_ALL             (BOARD_LED_1 | BOARD_LED_2)
+
 void main(void)
 {
 	int cnt = 0;
-	struct device *dev;
+//	struct device *dev;
 
-	dev = device_get_binding(PORT);
+//	dev = device_get_binding(PORT);
 	/* Set LED pin as output */
-	gpio_pin_configure(dev, LED, GPIO_DIR_OUT);
+//	gpio_pin_configure(dev, LED, GPIO_DIR_OUT);
+
+//	IntMasterDisable();
+
+//	power_domains_on();
+
+	PRCMPeripheralRunEnable(PRCM_PERIPH_GPIO);
+
+	PRCMLoadSet();
+
+	ROM_IOCPinTypeGpioOutput(BOARD_IOID_LED_1);
+	ROM_IOCPinTypeGpioOutput(BOARD_IOID_LED_2);
+
+	GPIO_clearMultiDio(BOARD_LED_ALL);
+
+//	HWREG( GPIO_BASE + GPIO_O_DOUTCLR31_0 ) = BOARD_LED_ALL;
 
 	while (1) {
 		/* Set pin to HIGH/LOW every 1 second */
-		gpio_pin_write(dev, LED, cnt % 2);
+//		gpio_pin_write(dev, LED, cnt % 2);
 		cnt++;
+
+		GPIO_toggleDio(BOARD_IOID_LED_2);
+
+//		HWREG( GPIO_BASE + GPIO_O_DOUTTGL31_0 ) = ( 1 << BOARD_IOID_LED_2 );
+
 		k_sleep(SLEEP_TIME);
 	}
 }

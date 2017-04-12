@@ -33,17 +33,8 @@ if GPIO
 config GPIO_CC26XX
 	def_bool y
 
-#config GPIO_CC26XX_A0
-#	default n
-
-#config GPIO_CC26XX_A1
-#	default y
-
-#config GPIO_CC26XX_A2
-#	default y
-
-#config GPIO_CC26XX_A3
-#	default n
+config GPIO_CC26XX_P0
+	default n
 
 endif # GPIO
 

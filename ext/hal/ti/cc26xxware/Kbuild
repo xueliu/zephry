@@ -6,6 +6,7 @@
 ccflags-$(CONFIG_CC26XXWARE_BUILTIN) += -O0
 ccflags-$(CONFIG_HAS_CC26XXWARE) += -D$(COMPILER)
 obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/gpio.o
+obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/ioc.o
 obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/interrupt.o
 #obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/pin.o
 obj-$(CONFIG_CC26XXWARE_BUILTIN) += driverlib/uart.o

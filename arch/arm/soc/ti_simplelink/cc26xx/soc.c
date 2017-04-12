@@ -16,7 +16,12 @@ static int ti_cc2650_init(struct device *arg)
 {
 	ARG_UNUSED(arg);
 
-//	PRCMCC3200MCUInit();
+  /* Turn on the PERIPH PD */
+  PRCMPowerDomainOn(PRCM_DOMAIN_PERIPH);
+
+  /* Wait for domains to power on */
+  while((PRCMPowerDomainStatus(PRCM_DOMAIN_PERIPH)
+        != PRCM_DOMAIN_POWER_ON));
 
 #ifdef CONFIG_UART_CC2650
 	/*

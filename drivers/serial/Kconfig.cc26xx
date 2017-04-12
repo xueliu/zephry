@@ -1,0 +1,15 @@
+menuconfig UART_CC26XX
+	depends on SOC_SERIES_CC26XX
+	bool "CC26XX UART driver"
+	default n
+	select SERIAL_HAS_DRIVER
+	depends on SOC_FAMILY_TISIMPLELINK
+	help
+	  This option enables the CC26XX UART driver, for UART_0.
+
+config UART_CC26XX_NAME
+	string "Device Name for CC26XX UART"
+	default "UART_0"
+	depends on UART_CC26XX
+	help
+	  This is the UART's device name binding.

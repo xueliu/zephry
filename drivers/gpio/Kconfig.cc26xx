@@ -1,0 +1,33 @@
+# Kconfig.cc26xx- CC26XX GPIO configuration options
+#
+
+menuconfig GPIO_CC26XX
+	bool "TI CC26XX GPIO driver"
+	depends on GPIO && SOC_FAMILY_TISIMPLELINK
+	default n
+	help
+	  Enable the GPIO driver on TI SimpleLink CC26xx boards
+
+if GPIO_CC26XX
+
+config GPIO_CC26XX_P0
+	bool "cc26xx GPIO Port P0 options"
+	default n
+	help
+	  Enable cc26xx GPIO port P0 config options.
+
+config GPIO_CC26XX_P0_DEV_NAME
+	string "GPIO Port P0 Device Name"
+	depends on GPIO_CC26XX_P0
+	default "GPIO_0"
+	help
+	  Specify the device name to be used for the GPIO port.
+
+config GPIO_CC26XX_PORT_P0_PRI
+	int "GPIO Port P0 interrupt priority"
+	depends on GPIO_CC26XX_P0
+	default 1
+	help
+	  CC26XX Port P0 IRQ priority.
+
+endif # GPIO_CC26XX
