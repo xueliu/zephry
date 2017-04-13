@@ -14,6 +14,7 @@
 #include <driverlib/interrupt.h>
 #include <driverlib/cpu.h>
 #include <driverlib/prcm.h>
+#include <driverlib/uart.h>
 
 #include <inc/hw_gpio.h>
 
@@ -31,6 +32,15 @@
 #define BOARD_LED_1               (1 << BOARD_IOID_LED_1)
 #define BOARD_LED_2               (1 << BOARD_IOID_LED_2)
 #define BOARD_LED_ALL             (BOARD_LED_1 | BOARD_LED_2)
+
+/*---------------------------------------------------------------------------*/
+/* Which events to trigger a UART interrupt */
+#define CC26XX_UART_RX_INTERRUPT_TRIGGERS (UART_INT_RX | UART_INT_RT)
+
+/* All interrupt masks */
+#define CC26XX_UART_INTERRUPT_ALL (UART_INT_OE | UART_INT_BE | UART_INT_PE | \
+                                   UART_INT_FE | UART_INT_RT | UART_INT_TX | \
+                                   UART_INT_RX | UART_INT_CTS)
 
 void main(void)
 {

@@ -23,6 +23,16 @@ static int ti_cc2650_init(struct device *arg)
   while((PRCMPowerDomainStatus(PRCM_DOMAIN_PERIPH)
         != PRCM_DOMAIN_POWER_ON));
 
+	PRCMPowerDomainOn(PRCM_DOMAIN_SERIAL);
+	while((PRCMPowerDomainStatus(PRCM_DOMAIN_SERIAL)
+        != PRCM_DOMAIN_POWER_ON));
+
+	PRCMPeripheralRunEnable(PRCM_PERIPH_UART0);
+
+	PRCMLoadSet();
+
+	while(!PRCMLoadGet());
+
 #ifdef CONFIG_UART_CC2650
 	/*
 	 * Enable Peripheral Clocks, ensuring UART can wake the processor from

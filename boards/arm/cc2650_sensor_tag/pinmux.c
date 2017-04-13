@@ -62,60 +62,65 @@
 #include <inc/hw_types.h>
 #include <inc/hw_memmap.h>
 #include <inc/hw_gpio.h>
-#include <driverlib/pin.h>
 #include <driverlib/rom.h>
-#include <driverlib/rom_map.h>
 #include <driverlib/gpio.h>
+#include <driverlib/ioc.h>
 #include <driverlib/prcm.h>
 
-int pinmux_initialize(struct device *port)
+
+
+#define BOARD_IOID_DP4_UARTRX     IOID_28
+#define BOARD_IOID_DP5_UARTTX     IOID_29
+
+#define BOARD_IOID_UART_RX        BOARD_IOID_DP4_UARTRX
+#define BOARD_IOID_UART_TX        BOARD_IOID_DP5_UARTTX
+
+#define BOARD_IOID_UART_CTS       IOID_UNUSED
+#define BOARD_IOID_UART_RTS       IOID_UNUSED
+#define BOARD_UART_RX             (1 << BOARD_IOID_UART_RX)
+#define BOARD_UART_TX             (1 << BOARD_IOID_UART_TX)
+#define BOARD_UART_CTS            (1 << BOARD_IOID_UART_CTS)
+#define BOARD_UART_RTS            (1 << BOARD_IOID_UART_RTS)
+
+static void power_and_clock(void)
+{
+  /* Power on the SERIAL PD */
+  PRCMPowerDomainOn(PRCM_DOMAIN_SERIAL);
+  // while(PRCMPowerDomainStatus(PRCM_DOMAIN_SERIAL)
+  //       != PRCM_DOMAIN_POWER_ON);
+
+  // /* Enable UART clock in active mode */
+  // PRCMPeripheralRunEnable(PRCM_PERIPH_UART0);
+  PRCMLoadSet();
+  while(!PRCMLoadGet());
+}
+
+int pin_initialize(struct device *port)
 {
 	ARG_UNUSED(port);
 
-#ifdef CONFIG_UART_CC32XX
-	/* Configure PIN_55 for UART0 UART0_TX */
-	MAP_PinTypeUART(PIN_55, PIN_MODE_3);
+//#ifdef CONFIG_UART_CC26XX
 
-	/* Configure PIN_57 for UART0 UART0_RX */
-	MAP_PinTypeUART(PIN_57, PIN_MODE_3);
-#endif
+	power_and_clock();
 
-#ifdef CONFIG_GPIO_CC32XX_A1
-	/* Enable Peripheral Clocks */
-	MAP_PRCMPeripheralClkEnable(PRCM_GPIOA1, PRCM_RUN_MODE_CLK);
 
-	/* The following enables the 3 LEDs for the blinking samples */
+	/*
+	* Make sure the TX pin is output / high before assigning it to UART control
+	* to avoid falling edge glitches
+	*/
+  	IOCPinTypeGpioOutput(BOARD_IOID_UART_TX);
+  	GPIO_setDio(BOARD_IOID_UART_TX);
 
-	/* Configure PIN_64 for GPIOOutput */
-	MAP_PinTypeGPIO(PIN_64, PIN_MODE_0, false);
-	MAP_GPIODirModeSet(GPIOA1_BASE, 0x2, GPIO_DIR_MODE_OUT);
+	/*
+	* Map UART signals to the correct GPIO pins and configure them as
+	* hardware controlled.
+	*/
+	IOCPinTypeUart(UART0_BASE, BOARD_IOID_UART_RX, BOARD_IOID_UART_TX,
+                           BOARD_IOID_UART_CTS, BOARD_IOID_UART_RTS);
 
-	/* Configure PIN_01 for GPIOOutput */
-	MAP_PinTypeGPIO(PIN_01, PIN_MODE_0, false);
-	MAP_GPIODirModeSet(GPIOA1_BASE, 0x4, GPIO_DIR_MODE_OUT);
-
-	/* Configure PIN_02 for GPIOOutput */
-	MAP_PinTypeGPIO(PIN_02, PIN_MODE_0, false);
-	MAP_GPIODirModeSet(GPIOA1_BASE, 0x8, GPIO_DIR_MODE_OUT);
-
-	/* SW3: Configure PIN_04 (GPIO13) for GPIOInput */
-	MAP_PinTypeGPIO(PIN_04, PIN_MODE_0, false);
-	MAP_GPIODirModeSet(GPIOA1_BASE, 0x20, GPIO_DIR_MODE_IN);
-#endif
-
-#ifdef CONFIG_GPIO_CC32XX_A2
-	MAP_PRCMPeripheralClkEnable(PRCM_GPIOA2, PRCM_RUN_MODE_CLK);
-
-	/* SW2: Configure PIN_15 (GPIO22) for GPIOInput */
-	MAP_PinTypeGPIO(PIN_15, PIN_MODE_0, false);
-	MAP_GPIODirModeSet(GPIOA2_BASE, 0x40, GPIO_DIR_MODE_IN);
-#endif
-
-#ifdef CONFIG_GPIO_CC32XX_A3
-	MAP_PRCMPeripheralClkEnable(PRCM_GPIOA3, PRCM_RUN_MODE_CLK);
-#endif
+//#endif
 
 	return 0;
 }
 
-SYS_INIT(pinmux_initialize, PRE_KERNEL_1, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT);
+SYS_INIT(pin_initialize, PRE_KERNEL_1, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT);
